@@ -31,11 +31,6 @@ export function toFormatted(format: string): string {
     )
   }
 
-  // %x 本地相应的日期表示
-  // %X 本地相应的时间表示
-  // %Z 当前时区的名称
-  // %% %号本身
-
   // Double digits year.
   fastReplace('%y', this.getFullYear().toString().substr(-2))
   // Full digits year.
