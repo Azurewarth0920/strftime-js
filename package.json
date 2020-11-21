@@ -1,0 +1,30 @@
+{
+  "name": "date-formatter",
+  "version": "0.0.1",
+  "description": "method that help data object to output fomatted date.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azurewarth0920/date-formatter.git"
+  },
+  "keywords": [
+    "date"
+  ],
+  "author": "pei.fan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azurewarth0920/date-formatter/issues"
+  },
+  "homepage": "https://github.com/Azurewarth0920/date-formatter#readme",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^6.1.0",
+    "@types/jest": "^26.0.15",
+    "jest": "^26.6.3",
+    "rollup": "^2.33.0",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.2"
+  }
+}
