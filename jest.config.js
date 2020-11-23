@@ -8,6 +8,5 @@ module.exports = {
   },
   moduleFileExtensions: ['js', 'ts', 'json'],
   modulePaths: ['<rootDir>'],
-  moduleDirectories: ['src']
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
 }

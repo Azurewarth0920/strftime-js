@@ -1,12 +1,14 @@
-export function toFormatted(format: string): string {
-  const weekDayMap = {
-    1: 'Monday',
-    2: 'Tuesday',
-    3: 'Wednesday',
-    4: 'Thursday',
-    5: 'Friday',
-    6: 'Saturday',
-    7: 'Sunday',
+export function toFormatted(this: Date, format: string): string {
+  const getWeekDayName = (count: number): string => {
+    return [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ][count]
   }
 
   // Perform side effect fast replacement
@@ -24,11 +26,15 @@ export function toFormatted(format: string): string {
   const toWeek = (startFromMonday?: boolean) => {
     const currentYear = this.getFullYear()
     const weekBeginningDay =
-      (7 - new Date(currentYear, 0, 1).getDay() + (startFromMonday ? 1 : 0)) % 6
-    return Math.floor(
-      (this.getTime() - new Date(currentYear, 0, weekBeginningDay).getTime()) /
-        86400000
-    )
+      (7 -
+        new Date(`${currentYear}/1/1`).getDay() +
+        (startFromMonday ? 1 : 0)) %
+      6
+
+    const timeDiff =
+      this.getTime() - new Date(currentYear, 0, weekBeginningDay).getTime()
+
+    return timeDiff > 0 ? Math.floor(timeDiff / 86400000 / 7) : 0
   }
 
   // Double digits year.
@@ -47,10 +53,10 @@ export function toFormatted(format: string): string {
   fastReplace('%M', this.getMinutes())
   // Seconds.
   fastReplace('%S', this.getSeconds())
-  // Weekdays abbreviations.
-  fastReplace('%a', weekDayMap[this.getDay()].slice(0, 3))
-  // Weekdays.
-  fastReplace('%A', weekDayMap[this.getDay()])
+  // Weekday abbreviations.
+  fastReplace('%a', getWeekDayName(this.getDay()).slice(0, 3))
+  // Weekday.
+  fastReplace('%A', getWeekDayName(this.getDay()))
   // Month abbreviations.
   fastReplace('%b', this.toLocaleString('default', { month: 'short' }))
   // Month.
@@ -60,14 +66,14 @@ export function toFormatted(format: string): string {
   // Day in this year.
   fastReplace(
     '%j',
-    Math.floor(
-      (new Date().getTime() -
-        new Date(`${new Date().getFullYear()}/0/1`).getTime()) /
+    Math.ceil(
+      (this.getTime() - new Date(`${this.getFullYear()}/1/1`).getTime()) /
         86400000
     )
   )
+  // Noon or afternoon.
   fastReplace('%p', this.getHours() >= 12 ? 'PM' : 'AM')
-  // xth week in this year(from Sunday).
+  // Week in this year(from Sunday).
   fastReplace('%U', toWeek())
   // Week day in digit.
   fastReplace('%w', this.getDay())
