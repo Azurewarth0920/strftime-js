@@ -26,13 +26,14 @@ export function toFormatted(this: Date, format: string): string {
   const toWeek = (startFromMonday?: boolean) => {
     const currentYear = this.getFullYear()
     const weekBeginningDay =
-      (7 -
+      ((7 -
         new Date(`${currentYear}/1/1`).getDay() +
         (startFromMonday ? 1 : 0)) %
-      6
-
+        7) +
+      1
     const timeDiff =
-      this.getTime() - new Date(currentYear, 0, weekBeginningDay).getTime()
+      this.getTime() -
+      new Date(`${currentYear}/1/${weekBeginningDay}`).getTime()
 
     return timeDiff > 0 ? Math.floor(timeDiff / 86400000 / 7) : 0
   }

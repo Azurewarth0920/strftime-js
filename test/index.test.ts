@@ -79,7 +79,7 @@ describe('import', () => {
   test('%U is converted to week in this year. // start from Sunday', () => {
     expect(dateInstance.toFormatted('%U')).toBe('0')
     expect(dateInstance2.toFormatted('%U')).toBe('5')
-    expect(dateInstance3.toFormatted('%U')).toBe('1')
+    expect(dateInstance3.toFormatted('%U')).toBe('5')
   })
 
   test('%w is converted to weekday.', () => {
@@ -88,8 +88,8 @@ describe('import', () => {
 
   test('%W is converted to week in this year. // start from Monday', () => {
     expect(dateInstance.toFormatted('%W')).toBe('0')
-    expect(dateInstance2.toFormatted('%W')).toBe('5')
-    expect(dateInstance3.toFormatted('%W')).toBe('1')
+    expect(dateInstance2.toFormatted('%W')).toBe('4')
+    expect(dateInstance3.toFormatted('%W')).toBe('5')
   })
 
   test('%y converted to locale date string. // en-us', () => {
