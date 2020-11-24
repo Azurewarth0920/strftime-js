@@ -11,18 +11,6 @@ export function toFormatted(this: Date, format: string): string {
     ][count]
   }
 
-  // Perform side effect fast replacement
-  function fastReplace(from: string, to: string | number): void {
-    let position = format.indexOf(from)
-    if (position === -1) return
-
-    while (position > -1) {
-      // The from length is always 2.
-      format = `${format.slice(0, position)}${to}${format.slice(position + 2)}`
-      position = format.indexOf(from)
-    }
-  }
-
   const toWeek = (startFromMonday?: boolean) => {
     const currentYear = this.getFullYear()
     const weekBeginningDay =
@@ -38,11 +26,59 @@ export function toFormatted(this: Date, format: string): string {
     return timeDiff > 0 ? Math.floor(timeDiff / 86400000 / 7) : 0
   }
 
-  // Double digits year.
-  fastReplace('%y', this.getFullYear().toString().substr(-2))
-  // Full digits year.
-  fastReplace('%Y', this.getFullYear())
-  // Month.
+  const memo = {}
+
+  const memoize = (key, value) => {
+    memo[key] = value
+    return value
+  }
+
+  const enum Token {
+    Year = 'y',
+    FullYear = 'Y',
+    Month = 'm',
+    Date = 'd',
+    MilitaryTime = 'H',
+    ContinentalTime = 'I',
+    Minutes = 'M',
+    Seconds = 'S',
+    AbbrWeekday = 'a',
+    FullWeekday = 'A',
+    AbbrMonth = 'b',
+    FullMonth = 'B',
+    LocaleTime = 'c',
+    DayInThisYear = 'j',
+    Meridiem = 'p',
+    WeekInYearFromSunday = 'U',
+    WeekDay = 'w',
+    WeekInYearFromMonday = 'W',
+    LocaleDateString = 'x',
+    LocaleTimeString = 'X',
+  }
+
+  const convert = (token: keyof Token) => {
+    switch (token) {
+      // Double digits year.
+      case Token.Year:
+        return (
+          memo[Token.Year] || memoize(this.getFullYear().toString().substr(-2))
+        )
+      // Full digits year.
+      case Token.FullYear
+        return (
+          memo[Token.FullYear] || memoize(this.getFullYear())
+        )
+    }
+  }
+
+  format.replace(/[%]{1,2}[AaBbcdmHIjMSpUWwxXYy]/g, match => {
+    if (match.length === 3) {
+      return match.slice(1)
+    } else {
+      return convert(match.slice(1) as keyof token)
+    }
+  })
+  
   fastReplace('%m', this.getMonth())
   // Date.
   fastReplace('%d', this.getDate())
@@ -84,8 +120,6 @@ export function toFormatted(this: Date, format: string): string {
   fastReplace('%x', this.toLocaleDateString())
   // locale time string.
   fastReplace('%X', this.toLocaleTimeString())
-  // % escaper
-  fastReplace('%%', '%')
 
   return format
 }
