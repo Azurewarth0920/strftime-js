@@ -26,9 +26,19 @@ export function toFormatted(this: Date, format: string): string {
     return timeDiff > 0 ? Math.floor(timeDiff / 86400000 / 7) : 0
   }
 
-  const memo = {}
+  type EnumToUnion<T extends string> = {
+    [enumValue in T]: `${enumValue}`
+  }[T]
 
-  const memoize = (key, value) => {
+  type MemoKey = EnumToUnion<Token>
+
+  type PartialRecord<K extends string, T> = {
+    [P in K]?: T
+  }
+
+  const memo: PartialRecord<MemoKey, string> = {}
+
+  const memoize = (key: MemoKey, value: string) => {
     memo[key] = value
     return value
   }
@@ -56,18 +66,22 @@ export function toFormatted(this: Date, format: string): string {
     LocaleTimeString = 'X',
   }
 
-  const convert = (token: keyof Token) => {
+  const convert = (token: MemoKey) => {
     switch (token) {
       // Double digits year.
       case Token.Year:
         return (
-          memo[Token.Year] || memoize(this.getFullYear().toString().substr(-2))
+          memo[Token.Year] ||
+          memoize(Token.Year, this.getFullYear().toString().substr(-2))
         )
       // Full digits year.
-      case Token.FullYear
+      case Token.FullYear:
         return (
-          memo[Token.FullYear] || memoize(this.getFullYear())
+          memo[Token.FullYear] ||
+          memoize(Token.FullYear, this.getFullYear().toString())
         )
+      default:
+        return ''
     }
   }
 
@@ -75,10 +89,10 @@ export function toFormatted(this: Date, format: string): string {
     if (match.length === 3) {
       return match.slice(1)
     } else {
-      return convert(match.slice(1) as keyof token)
+      return convert(match.slice(1) as MemoKey)
     }
   })
-  
+
   fastReplace('%m', this.getMonth())
   // Date.
   fastReplace('%d', this.getDate())
