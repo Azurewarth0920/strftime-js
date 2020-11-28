@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "clean": "rm -rf dist",
-    "prepublish": "npm-run-all test clean build generate-type",
+    "prepare": "npm-run-all test clean build generate-type",
     "build": "rollup --config rollup.config.js",
     "generate-type": "tsc src/*.ts --declaration --emitDeclarationOnly --outDir dist"
   },
