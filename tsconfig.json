@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
     "sourceMap": false,
     "target": "ES2015",
     "module": "es6",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "declaration": true,
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
@@ -26,10 +24,7 @@
       ]
     }
   },
-  "include": [
-    "src",
-    "typings"
-  ],
+  "include": [ "./src/**/*.ts" ],
   "exclude": [
     "node_modules"
   ]
