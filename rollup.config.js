@@ -1,5 +1,4 @@
 import babel from '@rollup/plugin-babel'
-import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
 import {
   name,
@@ -44,7 +43,7 @@ export default {
     {
       file: browser,
       format: 'iife',
-      name: 'dateFormatter',
+      name: 'date-formatter',
     },
   ],
 }
