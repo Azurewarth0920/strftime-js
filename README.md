@@ -1,4 +1,4 @@
-# date-formatter
+# strftime-js
 
 Method that enable formatted output(like strftime in Python) from date instance.
 
@@ -7,13 +7,13 @@ Method that enable formatted output(like strftime in Python) from date instance.
 Use yarn
 
 ```bash
-yarn add date-formatter
+yarn add strftime-js
 ```
 
 or npm
 
 ```bash
-npm install date-formatter
+npm install strftime-js
 ```
 
 ## Usage

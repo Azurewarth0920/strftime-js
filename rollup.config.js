@@ -43,7 +43,7 @@ export default {
     {
       file: browser,
       format: 'iife',
-      name: 'date-formatter',
+      name: 'strftimeJs',
     },
   ],
 }
