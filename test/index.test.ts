@@ -99,4 +99,8 @@ describe('import', () => {
   test('%y converted to locale time string. // en-us', () => {
     expect(dateInstance.toFormatted('%X')).toBe('4:05:10 PM')
   })
+
+  test('Escaping works', () => {
+    expect(dateInstance.toFormatted('%%X %X')).toBe('%X 4:05:10 PM')
+  })
 })
